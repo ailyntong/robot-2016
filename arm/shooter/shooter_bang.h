@@ -5,23 +5,23 @@
 #include "muan/utils/math_utils.h"
 
 class ShooterBang {
- public:
-  ShooterBang();
-  ~ShooterBang();
-  Voltage Update(Time dt, Angle displacement);
-  void SetGoal(AngularVelocity goal);
-  bool IsDone();
-  bool IsAtVelocity();
-  AngularVelocity GetVelocity();
+public:
+	ShooterBang();
+	~ShooterBang();
+	Voltage Update(Time dt, Angle displacement);
+	void SetGoal(AngularVelocity goal);
+	bool IsDone();
+	bool IsAtVelocity();
+	AngularVelocity GetVelocity();
 
- private:
-  AngularVelocity goal_, last_;
+private:
+	AngularVelocity goal_, last_;
 
-  Angle previous_displacement_;
-  Time time;
+	Angle previous_displacement_;
+	Time time;
 
-  bool up_to_speed;
-  bool has_up_to_speed;
+	bool up_to_speed;
+	bool has_up_to_speed;
 };
 
 #endif

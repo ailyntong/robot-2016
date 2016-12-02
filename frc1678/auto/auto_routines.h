@@ -13,15 +13,14 @@ class CitrusRobot;
 // Will allow someone to start a specific auto routine
 
 class LemonScriptRunner {
- public:
-  LemonScriptRunner(const std::string& auto_routine_file,
-                    CitrusRobot* robot);
-  ~LemonScriptRunner();
-  void Update();
+public:
+	LemonScriptRunner(const std::string& auto_routine_file, CitrusRobot* robot);
+	~LemonScriptRunner();
+	void Update();
 
- private:
-  lemonscript::LemonScriptCompiler* compiler;
-  lemonscript::LemonScriptState state;
+private:
+	lemonscript::LemonScriptCompiler* compiler;
+	lemonscript::LemonScriptState state;
 };
 
 #endif

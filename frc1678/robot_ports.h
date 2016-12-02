@@ -1,7 +1,12 @@
+/*
+ * Hardware Ports
+ */
+
 #ifndef FRC1678_ROBOT_PORTS_H_
 #define FRC1678_ROBOT_PORTS_H_
 
 namespace RobotPorts {
+//Drivetrain Ports
 constexpr unsigned int left_encoder_a = 12, left_encoder_b = 13;
 constexpr unsigned int right_encoder_a = 10, right_encoder_b = 11;
 

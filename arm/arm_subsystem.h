@@ -13,126 +13,126 @@
 enum class IntakeGoal { OFF = 0, REVERSE, FORWARD_UNTIL, FORWARD_FOREVER };
 
 class ArmSubsystem : public muan::Updateable {
- public:
-  ArmSubsystem();
-  ~ArmSubsystem();
+public:
+	ArmSubsystem();
+	~ArmSubsystem();
 
-  bool IsCalibrated();
+	bool IsCalibrated();
 
-  void Update(Time dt) override;
+	void Update(Time dt) override;
 
-  bool IsDone();
+	bool IsDone();
 
-  void GoToLong();
-  void GoToAutoShot();
-  void GoToIntakeSpin();
-  void GoToTuck();
-  void GoToTuckSpin();
-  void GoToFender();
-  void GoToIntake();
-  void GoToDefensive();
-  void GoToDefensiveSpin();
-  void GoToClassA();
+	void GoToLong();
+	void GoToAutoShot();
+	void GoToIntakeSpin();
+	void GoToTuck();
+	void GoToTuckSpin();
+	void GoToFender();
+	void GoToIntake();
+	void GoToDefensive();
+	void GoToDefensiveSpin();
+	void GoToClassA();
 
-  void StartClimb();
-  void ContinueClimb();
-  void CompleteClimb();
+	void StartClimb();
+	void ContinueClimb();
+	void CompleteClimb();
 
-  void SetEnabled(bool enabled);
+	void SetEnabled(bool enabled);
 
-  void DropBall();
+	void DropBall();
 
-  void SetIntake(IntakeGoal goal);
-  void SetShooter(bool on);
+	void SetIntake(IntakeGoal goal);
+	void SetShooter(bool on);
 
-  void Shoot(bool checkspeed = true);
-  bool IsShooting();
-  bool ShooterSpeeded();
+	void Shoot(bool checkspeed = true);
+	bool IsShooting();
+	bool ShooterSpeeded();
 
-  bool AllIsDone();
-  bool ClimbIsDone();
-  bool BallIntaked();
+	bool AllIsDone();
+	bool ClimbIsDone();
+	bool BallIntaked();
 
-  void RecalibratePivot();
-  void StopRecalibrating();
+	void RecalibratePivot();
+	void StopRecalibrating();
 
-  bool proxy_shot_override_ = false;
-  bool proxy_position_override_ = false;
+	bool proxy_shot_override_ = false;
+	bool proxy_position_override_ = false;
 
- private:
-  std::tuple<Voltage, bool, Voltage, bool> UpdateClimb(Time dt);
+private:
+	std::tuple<Voltage, bool, Voltage, bool> UpdateClimb(Time dt);
 
-  void SetHoodOpen(bool open);
+	void SetHoodOpen(bool open);
 
-  void SetGoal(ArmGoal goal);
+	void SetGoal(ArmGoal goal);
 
-  enum class ArmState {
-    DISABLED,
-    RETRACTING,
-    MOVING_PIVOT,
-    EXTENDING,
-    FINISHED,
-    CLIMBING,
-    ESTOP,
-    RECALIBRATING
-  };
+	enum class ArmState {
+		DISABLED,
+		RETRACTING,
+		MOVING_PIVOT,
+		EXTENDING,
+		FINISHED,
+		CLIMBING,
+		ESTOP,
+		RECALIBRATING
+	};
 
-  enum class ClimbState { PULLING_UP, PIVOTING_ROBOT, DONE };
+	enum class ClimbState { PULLING_UP, PIVOTING_ROBOT, DONE };
 
-  ArmState state_ = ArmState::DISABLED;
-  ClimbState climb_state_ = ClimbState::DONE;
-  RobotConstants constants;
+	ArmState state_ = ArmState::DISABLED;
+	ClimbState climb_state_ = ClimbState::DONE;
+	RobotConstants constants;
 
-  std::unique_ptr<Encoder> pivot_encoder_;
-  std::unique_ptr<DigitalInput> pivot_hall_;
-  std::unique_ptr<DoubleSolenoid> pivot_disk_brake_;
-  std::unique_ptr<VictorSP> pivot_motor_a_, pivot_motor_b_;
+	std::unique_ptr<Encoder> pivot_encoder_;
+	std::unique_ptr<DigitalInput> pivot_hall_;
+	std::unique_ptr<DoubleSolenoid> pivot_disk_brake_;
+	std::unique_ptr<VictorSP> pivot_motor_a_, pivot_motor_b_;
 
-  std::unique_ptr<Encoder> elevator_encoder_;
-  std::unique_ptr<DoubleSolenoid> elevator_disk_brake_;
-  std::unique_ptr<VictorSP> elevator_motor_a_, elevator_motor_b_;
+	std::unique_ptr<Encoder> elevator_encoder_;
+	std::unique_ptr<DoubleSolenoid> elevator_disk_brake_;
+	std::unique_ptr<VictorSP> elevator_motor_a_, elevator_motor_b_;
 
-  std::unique_ptr<Encoder> shooter_encoder_;
-  std::unique_ptr<VictorSP> shooter_motor_a_, shooter_motor_b_;
+	std::unique_ptr<Encoder> shooter_encoder_;
+	std::unique_ptr<VictorSP> shooter_motor_a_, shooter_motor_b_;
 
-  std::unique_ptr<Solenoid> shooter_hood_;
-  std::unique_ptr<Solenoid> ball_pinch_;
+	std::unique_ptr<Solenoid> shooter_hood_;
+	std::unique_ptr<Solenoid> ball_pinch_;
 
-  std::unique_ptr<VictorSP> intake_front_;
-  std::unique_ptr<VictorSP> intake_side_;
+	std::unique_ptr<VictorSP> intake_front_;
+	std::unique_ptr<VictorSP> intake_side_;
 
-  std::unique_ptr<DigitalInput> ball_sensor_;
+	std::unique_ptr<DigitalInput> ball_sensor_;
 
-  std::unique_ptr<DigitalOutput> camera_light_;
+	std::unique_ptr<DigitalOutput> camera_light_;
 
-  PivotController pivot_controller_;
-  ElevatorController elevator_controller_;
-  ShooterBang shooter_controller_;
+	PivotController pivot_controller_;
+	ElevatorController elevator_controller_;
+	ShooterBang shooter_controller_;
 
-  muan::CSVLog csv_log_;
-  SmartDashboardHelper csv_helper_;
+	muan::CSVLog csv_log_;
+	SmartDashboardHelper csv_helper_;
 
-  bool enabled_ = false;
-  bool finished_ = true;
-  bool climbing_done_ = false;
-  bool climbing_advance_ = false;
+	bool enabled_ = false;
+	bool finished_ = true;
+	bool climbing_done_ = false;
+	bool climbing_advance_ = false;
 
-  ArmGoal current_goal_;
+	ArmGoal current_goal_;
 
-  muan::Timer shot_timer_;
-  bool should_shoot_ = false;
-  const Time shot_time = 2 * s;
+	muan::Timer shot_timer_;
+	bool should_shoot_ = false;
+	const Time shot_time = 2 * s;
 
-  Time t = 0 * s;
+	Time t = 0 * s;
 
-  IntakeGoal intake_target_;
-  Time intake_timer_;
+	IntakeGoal intake_target_;
+	Time intake_timer_;
 
-  Angle thresh_;
+	Angle thresh_;
 
-  void SetPivotBrake(bool on);
-  void SetElevatorBrake(bool on);
-  bool was_pivot_brake_{false}, was_elevator_brake_{false};
+	void SetPivotBrake(bool on);
+	void SetElevatorBrake(bool on);
+	bool was_pivot_brake_{false}, was_elevator_brake_{false};
 };
 
 #endif /* ARM_ARM_SUBSYSTEM_H_ */

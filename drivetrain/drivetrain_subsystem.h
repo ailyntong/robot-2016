@@ -25,83 +25,83 @@ using drivetrain::control_loops::DrivetrainStatus;
 using drivetrain::control_loops::DrivetrainLoop;
 
 class DrivetrainSubsystem : public muan::Updateable {
- public:
-  DrivetrainSubsystem();
-  virtual ~DrivetrainSubsystem();
+public:
+	DrivetrainSubsystem();
+	virtual ~DrivetrainSubsystem();
 
-  void Update(Time dt) override;
-  void Start();
-  void UpdateConstants();
-  void SetDriveGoal(const DrivetrainGoal& goal);
-  Length GetDistanceDriven();
-  void Shift(bool high);
+	void Update(Time dt) override;
+	void Start();
+	void UpdateConstants();
+	void SetDriveGoal(const DrivetrainGoal& goal);
+	Length GetDistanceDriven();
+	void Shift(bool high);
 
-  void FollowMotionProfile(
-      std::unique_ptr<muan::MotionProfile<Length>> distance_profile,
-      std::unique_ptr<muan::MotionProfile<Angle>> angle_profile,
-      bool highgear = false, bool use_distance_termination = true,
-      bool use_angle_termination = true);
-  bool IsProfileComplete();
-  void CancelMotionProfile();
+	void FollowMotionProfile(
+			std::unique_ptr<muan::MotionProfile<Length>> distance_profile,
+			std::unique_ptr<muan::MotionProfile<Angle>> angle_profile,
+			bool highgear = false, bool use_distance_termination = true,
+			bool use_angle_termination = true);
+	bool IsProfileComplete();
+	void CancelMotionProfile();
 
-  void PointTurn(Angle angle, bool highgear = false);
-  void AbsolutePointTurn(Angle angle, bool highgear = false);
-  void DriveDistance(Length distance, bool highgear = false);
-  void DriveSlowDistance(Length distance, bool highgear = false);
-  void DriveDistanceAtAngle(Length distance, Angle angle,
-                            bool highgear = false);
+	void PointTurn(Angle angle, bool highgear = false);
+	void AbsolutePointTurn(Angle angle, bool highgear = false);
+	void DriveDistance(Length distance, bool highgear = false);
+	void DriveSlowDistance(Length distance, bool highgear = false);
+	void DriveDistanceAtAngle(Length distance, Angle angle,
+			bool highgear = false);
 
-  void SetEnabled(bool enabled);
+	void SetEnabled(bool enabled);
 
-  Angle GetGyroAngle();
+	Angle GetGyroAngle();
 
-  std::unique_ptr<GyroReader>
-      gyro_reader_;  // Made public so vision can access angle
- private:
-  void SetDrivePosition(DrivetrainPosition* drivetrain_position);
-  Voltage GetAngleFFVoltage(AngularVelocity velocity,
-                            AngularAcceleration acceleration, bool highgear);
-  Voltage GetDistanceFFVoltage(Velocity velocity, Acceleration acceleration,
-                               bool highgear);
+	std::unique_ptr<GyroReader> gyro_reader_;  // Made public so vision can access angle
 
-  std::unique_ptr<RobotDrive> drive_;
-  std::unique_ptr<DrivetrainLoop> drive_loop_;
-  std::unique_ptr<Encoder> left_encoder_, right_encoder_;
-  std::unique_ptr<Solenoid> shifting_;
+private:
+	void SetDrivePosition(DrivetrainPosition* drivetrain_position);
+	Voltage GetAngleFFVoltage(AngularVelocity velocity,
+			AngularAcceleration acceleration, bool highgear);
+	Voltage GetDistanceFFVoltage(Velocity velocity, Acceleration acceleration,
+			bool highgear);
 
-  bool is_operator_controlled_ = true;
-  bool is_loop_highgear = true;
+	std::unique_ptr<RobotDrive> drive_;
+	std::unique_ptr<DrivetrainLoop> drive_loop_;
+	std::unique_ptr<Encoder> left_encoder_, right_encoder_;
+	std::unique_ptr<Solenoid> shifting_;
 
-  bool is_enabled_ = false;
+	bool is_operator_controlled_ = true;
+	bool is_loop_highgear = true;
 
-  Angle gyro_zero_offset_ = 0 * deg;
+	bool is_enabled_ = false;
 
-  DrivetrainGoal current_goal_;
-  std::unique_ptr<muan::MotionProfile<Length>> distance_profile_;
-  std::unique_ptr<muan::MotionProfile<Angle>> angle_profile_;
+	Angle gyro_zero_offset_ = 0 * deg;
 
-  bool use_distance_termination_ = true;
-  bool use_angle_termination_ = true;
+	DrivetrainGoal current_goal_;
+	std::unique_ptr<muan::MotionProfile<Length>> distance_profile_;
+	std::unique_ptr<muan::MotionProfile<Angle>> angle_profile_;
 
-  muan::PidController<Angle, Voltage> angle_controller_;
-  muan::PidController<Length, Voltage> distance_controller_;
+	bool use_distance_termination_ = true;
+	bool use_angle_termination_ = true;
 
-  Length encoder_offset_ = 0 * m;
-  Angle gyro_offset_ = 0 * rad;
-  Angle old_angle_ = 0 * rad;
-  Angle even_older_angle_ = 0 * rad;
-  Velocity last_angle_velocity_ = 0 * m / s;
-  Velocity last_distance_velocity_ = 0 * m / s;
+	muan::PidController<Angle, Voltage> angle_controller_;
+	muan::PidController<Length, Voltage> distance_controller_;
 
-  Angle last_angle_ = 0 * rad;
-  Time t;
-  std::mutex mu_;
+	Length encoder_offset_ = 0 * m;
+	Angle gyro_offset_ = 0 * rad;
+	Angle old_angle_ = 0 * rad;
+	Angle even_older_angle_ = 0 * rad;
+	Velocity last_angle_velocity_ = 0 * m / s;
+	Velocity last_distance_velocity_ = 0 * m / s;
 
-  muan::TextLog event_log_;
-  muan::CSVLog csv_log_;
-  SmartDashboardHelper csv_helper_;
+	Angle last_angle_ = 0 * rad;
+	Time t;
+	std::mutex mu_;
 
-  muan::Timer timer;
+	muan::TextLog event_log_;
+	muan::CSVLog csv_log_;
+	SmartDashboardHelper csv_helper_;
+
+	muan::Timer timer;
 };
 
 #endif

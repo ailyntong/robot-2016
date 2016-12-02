@@ -10,7 +10,7 @@ namespace ElevatorConstants {
 // Constants
 
 // Motor constants
-// Torque Constanti
+// Torque Constants
 auto stall_current = 134 * A;
 auto stall_torque = 0.71 * N * m;
 auto free_speed = 18730 * rev / (60 * s);

@@ -1,3 +1,7 @@
+/*
+ * Struct with subsystems: Drivetrain and Arm
+ */
+
 #ifndef FRC1678_ROBOT_SUBSYSTEMS_H_
 #define FRC1678_ROBOT_SUBSYSTEMS_H_
 
